@@ -1,1 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>浅野建 | Laravelエンジニア ポートフォリオ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #12181F;
+    --bg-panel: #171F28;
+    --ink: #E8E4DB;
+    --ink-dim: #9BA3AC;
+    --accent: #4A7C6F;
+    --accent-bright: #6FA895;
+    --line: #2A333E;
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.85;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  .glow-field {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .glow-field span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(10px);
+  }
+
+  .glow-field .g1 {
+    top: -10%;
+    right: -12%;
+    width: 560px;
+    height: 560px;
+    background: radial-gradient(circle, rgba(74,124,111,0.32) 0%, rgba(74,124,111,0) 70%);
+  }
+
+  .glow-field .g2 {
+    top: 28%;
+    left: -18%;
+    width: 620px;
+    height: 620px;
+    background: radial-gradient(circle, rgba(111,168,149,0.18) 0%, rgba(111,168,149,0) 70%);
+  }
+
+  .glow-field .g3 {
+    top: 58%;
+    right: -14%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(74,124,111,0.26) 0%, rgba(74,124,111,0) 70%);
+  }
+
+  .glow-field .g4 {
+    top: 88%;
+    left: -10%;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(111,168,149,0.20) 0%, rgba(111,168,149,0) 70%);
+  }
+
+  .wrap, header.hero, footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  a { color: var(--accent-bright); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--accent-bright);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  header.hero {
+    padding: 120px 0 96px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .kicker {
+    font-size: 0.92rem;
+    color: var(--accent-bright);
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+
+  h1.name {
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    line-height: 1.25;
+    margin-bottom: 14px;
+  }
+
+  .role {
+    font-size: 1.15rem;
+    color: var(--ink-dim);
+    max-width: 34ch;
+  }
+
+  section {
+    padding: 88px 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-bright), transparent);
+    opacity: 0.6;
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  h2.section-title {
+    font-size: 1.65rem;
+    margin-bottom: 40px;
+    max-width: 22ch;
+  }
+
+  p.lead {
+    color: var(--ink-dim);
+    max-width: 62ch;
+    margin-bottom: 36px;
+  }
+
+  .about-text {
+    max-width: 62ch;
+    font-size: 1.02rem;
+  }
+
+  .about-text p + p { margin-top: 1.2em; }
+
+  .service-list {
+    list-style: none;
+    max-width: 62ch;
+  }
+
+  .service-list li {
+    display: flex;
+    gap: 18px;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .service-list li:last-child { border-bottom: 1px solid var(--line); }
+
+  .service-mark {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-bright);
+    margin-top: 9px;
+    flex-shrink: 0;
+  }
+
+  .service-list strong {
+    display: block;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .service-list span {
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+  }
+
+  .case {
+    background: rgba(23, 31, 40, 0.72);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 36px 32px;
+  }
+
+  .case + .case { margin-top: 28px; }
+
+  .case-status {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--accent-bright);
+    border: 1px solid var(--accent);
+    border-radius: 100px;
+    padding: 3px 14px;
+    margin-bottom: 18px;
+  }
+
+  .case h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .case-summary {
+    color: var(--ink-dim);
+    margin-bottom: 24px;
+    max-width: 56ch;
+  }
+
+  .case-phase {
+    margin-top: 22px;
+  }
+
+  .case-phase h4 {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    padding-left: 14px;
+    border-left: 2px solid var(--accent);
+  }
+
+  .case-phase ul {
+    list-style: none;
+    padding-left: 14px;
+  }
+
+  .case-phase li {
+    position: relative;
+    padding-left: 18px;
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .case-phase li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 5px;
+    height: 5px;
+    background: var(--ink-dim);
+    border-radius: 50%;
+  }
+
+  .case-stack {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .case-stack span {
+    font-size: 0.82rem;
+    color: var(--ink-dim);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 4px 12px;
+  }
+
+  .contact-links {
+    list-style: none;
+    max-width: 62ch;
+  }
+
+  .contact-links li {
+    border-top: 1px solid var(--line);
+  }
+
+  .contact-links li:last-child { border-bottom: 1px solid var(--line); }
+
+  .contact-links a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 4px;
+    color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+
+  .contact-links a:hover {
+    color: var(--accent-bright);
+    text-decoration: none;
+  }
+
+  .contact-links .sub {
+    color: var(--ink-dim);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+  }
+
+  .contact-links .arrow {
+    color: var(--ink-dim);
+    font-size: 1.1rem;
+  }
+
+  footer {
+    padding: 48px 0 60px;
+    color: var(--ink-dim);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 0 20px; }
+    header.hero { padding: 72px 0 56px; }
+    h1.name { font-size: 2.15rem; }
+    .role { font-size: 1.02rem; max-width: none; }
+    section { padding: 56px 0; }
+    h2.section-title { font-size: 1.4rem; margin-bottom: 28px; }
+    .case { padding: 24px 18px; }
+    .case h3 { font-size: 1.15rem; }
+    .service-list li { gap: 14px; }
+    .contact-links a { padding: 18px 2px; }
+    .contact-links .arrow { flex-shrink: 0; }
+    .glow-field span { filter: blur(6px); }
+    .glow-field .g1, .glow-field .g3 { width: 340px; height: 340px; }
+    .glow-field .g2, .glow-field .g4 { width: 380px; height: 380px; }
+  }
+
+  @media (max-width: 380px) {
+    h1.name { font-size: 1.85rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="glow-field">
+  <span class="g1"></span>
+  <span class="g2"></span>
+  <span class="g3"></span>
+  <span class="g4"></span>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Portfolio</div>
+    <h1 class="name">浅野 建<br>Asano Takeru</h1>
+    <p class="role">Laravelエンジニア。現場仕事で培った確実さを武器に、構築から運用保守まで一貫して対応します。</p>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <h2 class="section-title">自己紹介</h2>
+    <div class="about-text">
+      <p>高校卒業後、電気工事士として現場での経験を積みました。ほこりやハウスダストへのアレルギー反応が出やすく、職種柄避けられない環境であったことから、長期的に続けることが難しいと判断し、26歳でエンジニアへの転向を決意しました。</p>
+      <p>SESエンジニアとして開発の世界に入り、現在はLaravelを用いたWebアプリケーション開発に従事しています。自社の技術課題として育児記録アプリの開発・リリースに取り組んだほか、医療系レポートシステムの構築・運用保守など、要件整理から実装、運用まで一貫して担当した経験があります。</p>
+      <p>現場仕事で培った「確実に・丁寧に仕上げる」姿勢を活かし、着実な開発・運用を心がけています。</p>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <h2 class="section-title">できること</h2>
+    <p class="lead">開発だけでなく、導入から保守まで一貫して対応できるのが強みです。</p>
+    <ul class="service-list">
+      <li>
+        <span class="service-mark"></span>
+        <div>
+          <strong>Webアプリケーション開発</strong>
+          <span>Laravelを用いた要件整理〜実装〜リリースまでの開発</span>
+        </div>
+      </li>
+      <li>
+        <span class="service-mark"></span>
+        <div>
+          <strong>サーバー・環境構築</strong>
+          <span>サーバー構築、端末環境設定、ライセンス管理</span>
+        </div>
+      </li>
+      <li>
+        <span class="service-mark"></span>
+        <div>
+          <strong>システム運用・保守</strong>
+          <span>障害対応、原因調査、利用者からの問い合わせ対応</span>
+        </div>
+      </li>
+      <li>
+        <span class="service-mark"></span>
+        <div>
+          <strong>外部機器・システム連携</strong>
+          <span>外部機器との接続テスト、連携テスト、導入支援</span>
+        </div>
+      </li>
+      <li>
+        <span class="service-mark"></span>
+        <div>
+          <strong>マニュアル・資料作成</strong>
+          <span>操作説明資料、仕様書、テンプレートの作成</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <h2 class="section-title">実績</h2>
+
+    <div class="case">
+      <span class="case-status">リリース済み（無料公開中）</span>
+      <h3>育児記録アプリ</h3>
+      <p class="case-summary">会社の半年間の技術課題として、個人の育児記録を管理するWebアプリケーションを個人開発。要件整理から実装、リリースまでを一人で担当。写真アップロードやカレンダー表示、複数の子どもへの対応、CSVエクスポートなどの機能を実装した。</p>
+      <div class="case-stack">
+        <span>Laravel</span>
+        <span>PHP</span>
+        <span>MySQL</span>
+      </div>
+    </div>
+
+    <div class="case">
+      <span class="case-status">完了済み</span>
+      <h3>医療系レポートシステム導入・運用保守</h3>
+      <p class="case-summary">病理・内視鏡・エコーレポートシステムの構築から運用保守までを一貫して担当。</p>
+
+      <div class="case-phase">
+        <h4>構築フェーズ</h4>
+        <ul>
+          <li>サーバー構築、端末環境構築・ライセンス設定</li>
+          <li>各種マスタ設定、病理・SRマッピングファイル作成</li>
+          <li>レポートテンプレート作成、帳票・テンプレート仕様書作成</li>
+          <li>内視鏡・エコー装置との接続／連携テスト、全件データテスト</li>
+          <li>操作説明会の実施（資料作成含む）</li>
+        </ul>
+      </div>
+
+      <div class="case-phase">
+        <h4>運用・保守フェーズ</h4>
+        <ul>
+          <li>課題管理、稼働立会</li>
+          <li>障害・不具合対応、原因調査</li>
+          <li>医療機器増設対応、再連携テスト</li>
+          <li>利用者問い合わせ対応</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2 class="section-title">連絡先</h2>
+    <p class="lead">お仕事のご相談はお気軽にご連絡ください。</p>
+    <ul class="contact-links">
+      <li>
+        <a href="https://github.com/takeman444-gif" target="_blank" rel="noopener noreferrer">
+          <span>
+            GitHub
+            <span class="sub" style="display:block;">takeman444-gif</span>
+          </span>
+          <span class="arrow">↗</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://x.com/AsanoBuild" target="_blank" rel="noopener noreferrer">
+          <span>
+            X (Twitter)
+            <span class="sub" style="display:block;">@AsanoBuild</span>
+          </span>
+          <span class="arrow">↗</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    &copy; 2026 Asano Takeru
+  </div>
+</footer>
+
+</body>
+</html>
